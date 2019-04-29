@@ -1,20 +1,13 @@
-<form  (submit)="onLoginSubmit()" name="loginForm"  #form="ngForm" class="form-signin">
-  
-  <div class="form-label-group">
-    <input [(ngModel)]="username" name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputEmail">Username</label>
-  </div>
+<h2 class="page-header">Login</h2>
+<form (submit)="onLoginSubmit()">
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="username" name="username" class="form-control">
+    </div>
 
-  <div class="form-label-group">
-    <input [(ngModel)]="password" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <label for="inputPassword">Password</label>
-  </div>
-<!-- 
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember Me
-    </label>
-  </div> -->
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2019</p>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" name="password" class="form-control">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Login">
 </form>
