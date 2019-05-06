@@ -37,6 +37,10 @@ path: '',
   {
     path: 'register',
     component: RegisterComponent, canActivate: [NotAuthGuard]
+  },
+  {
+    path: 'groups/create',
+    component: CreateGroupComponent, canActivate: [AuthGuard]
   }
 ];
 
