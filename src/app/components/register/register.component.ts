@@ -19,7 +19,6 @@ export class RegisterComponent implements OnInit {
   username: string;
   email: string;
   password: string;
-  phone: number;
 
   constructor(private validateService: ValidateService,
               private flashMessage: FlashMessagesService,
@@ -31,28 +30,29 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-    // console.log(123);
     const user = {
       name: this.name,
       email: this.email,
       username: this.username,
-      password: this.password,
-      phone: this.phone
+      password: this.password
     };
+
+    console.log(user);
+
 
     // Required fields
 
-    if (!this.validateService.validateRegister(user)) {
-      this.flashMessage.show('Please fill in all the fields', { cssClass: 'alert-danger', timeout: 3000 });
-      return false;
-    }
+    // if (!this.validateService.validateRegister(user)) {
+    //   this.flashMessage.show('Please fill in all the fields', { cssClass: 'alert-danger', timeout: 5000 });
+    //   return false;
+    // }
 
     // validate email
 
-    if (!this.validateService.validateEmail(user.email)) {
-      this.flashMessage.show('Please use valid email', { cssClass: 'alert-danger', timeout: 3000 });
-      return;
-    }
+    // if (!this.validateService.validateEmail(user.email)) {
+    //   this.flashMessage.show('Please use valid email', { cssClass: 'alert-danger', timeout: 5000 });
+    //   return;
+    // }
 
     // Register user
     this.authService.registerUser(user).subscribe(data => {

@@ -18,7 +18,7 @@ export class AuthService {
   userRole: string;
 
   constructor(private http: HttpClient, private helper: JwtHelperService) {
-    this.localhost = 'http://localhost:8080/';
+    this.localhost = 'http://localhost:8000/';
     // this.localhost = '';
 
   }

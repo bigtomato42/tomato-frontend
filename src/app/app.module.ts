@@ -20,6 +20,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CreateGroupComponent } from './components/groups/create-group/create-group.component';
 
 const routes: Routes = [{
 path: '',
@@ -49,7 +50,8 @@ export function tokenGetter() {
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateGroupComponent
   ],
   imports: [
     BrowserModule,
