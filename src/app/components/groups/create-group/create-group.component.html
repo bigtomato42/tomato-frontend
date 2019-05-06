@@ -1,20 +1,36 @@
-<h2 class="page-header">Create Group</h2>
-<form (submit)="onCreateSubmit()">
-  <div class="form-group">
-    <label>Name</label>
-    <input type="text" [(ngModel)]="name" name="name" class="form-control">
-  </div>
-  <div class="form-group">
-      <label>Username</label>
-      <input type="text" [(ngModel)]="username" name="username" class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text"  [(ngModel)]="email" name="email" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Phone</label>
-        <input type="text"  [(ngModel)]="phone" name="phone" class="form-control">
-      </div>
-        <input type="submit" class="btn btn-primary" value="Submit">
-</form>
+<div class="container">
+  <div class="row justify-content-center pt-3">
+    <div class="col-md-10">
+      <div class="card">
+        <header class="card-header">
+          <h4 class="card-title mt-2">Create a new Group</h4>
+        </header>
+        <article class="card-body">
+          <form ngNativeValidate (submit)="onCreateSubmit()">
+            <div class="form-row">
+              <div class="col form-group">
+                <label>Name</label>
+                <input [(ngModel)]="name" required name="name" type="text" class="form-control" placeholder="Name">
+              </div>
+              <div class="form-group custom-file">
+                <input  [(ngModel)]="logo" name="logo" required #file type="file" accept='image/*' (change)="preview(file.files)"  class="custom-file-input" id="customFile" />
+                <label class="custom-file-label" for="customFile">Group Logo</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <img class="my-2" [src]="imgURL" height="200" *ngIf="imgURL">
+            </div>
+           
+         
+            <div class="form-group col-md-4 mx-auto">
+              <button type="submit" class="btn btn-primary btn-block"> Create Group </button>
+            </div> <!-- form-group// -->
+          </form>
+        </article> <!-- card-body end .// -->
+      </div> <!-- card.// -->
+    </div> <!-- col.//-->
+
+  </div> <!-- row.//-->
+
+</div>
+<!--container end.//-->
