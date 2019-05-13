@@ -34,16 +34,16 @@ export class LoginComponent implements OnInit {
 
     // actual service
     this.authService.authenticateUser(user).then(data => {
-      if (!this.authService.loggedIn()) {
-        this.flashMessage.show('Login Failed', { cssClass: 'alert-danger', timeout: 5000 });
-        this.router.navigate(['/login']);
-      } else {
+      if (data.success) {
         this.flashMessage.show('Login Successful', { cssClass: 'alert-success', timeout: 5000 });
         this.router.navigate(['/profile']);
-  }
+      } else {
+        this.flashMessage.show('Login Failed', { cssClass: 'alert-danger', timeout: 5000 });
+        // this.router.navigate(['/login']);
+      }
     }, error => {
       this.flashMessage.show('Login Failed', { cssClass: 'alert-danger', timeout: 5000 });
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     });
   }
 }

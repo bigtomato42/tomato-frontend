@@ -8,8 +8,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {7
-
+export class ProfileComponent implements OnInit {
 
   user: any;
 
@@ -20,7 +19,10 @@ export class ProfileComponent implements OnInit {7
   ) { }
 
   ngOnInit() {
-    this.user = this.authService.profile().subscribe(data => this.user = data);
+    this.user = this.authService.profile().then(data => {
+      console.log(data);
+      this.user = data;
+    }, error => { });
     // console.log(this.user);
   }
 
