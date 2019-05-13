@@ -1,73 +1,107 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+// import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+  catchError,
+  map,
+  tap
+} from 'rxjs/operators';
 
-
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders
+} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  localhost: string;
+  uri: string;
 
   authToken: any;
   user: any;
 
   userRole: string;
 
-  constructor(private http: HttpClient, private helper: JwtHelperService) {
-    this.localhost = 'http://localhost:8000/';
-    // this.localhost = '';
+  constructor(private http: HttpClient) {
+    this.loadToken();
+
+    this.uri = 'https://bigtomato.herokuapp.com/';
+  }
+
+  async registerUser(user) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return await this.http.post < any > (this.uri + 'users/', user, httpOptions).pipe(
+      tap((data: any) => {})
+    ).toPromise();
+  }
+
+  async authenticateUser(user) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return await this.http.post < any > (this.uri + 'log_in/', user, httpOptions).pipe(
+      map(data => {
+        this.storeToken(data.token);
+        this.loadToken();
+        return { success: this.loggedIn() };
+        // console.log(data.token);
+      },
+      error => {})
+    ).toPromise();
+    // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
+  }
+
+  async profile() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Token ' + this.authToken
+      })
+    };
+
+    return await this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
+      this.user = {
+        name: data.name,
+        email: data.email,
+        username: data.username
+      };
+      this.storeUserData(this.user);
+      return this.user;
+    }, error => { })).toPromise();
 
   }
 
-  registerUser(user) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.get<any>(this.localhost);
-  }
-
-  authenticateUser(user) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.get<any>(this.localhost);
-
-  }
-  storeUserData(token, user) {
+  storeToken(token) {
     localStorage.setItem('access_token', token);
-    localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
+  }
+
+  storeUserData(user) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.user = user;
   }
 
-  // loadToken() {
-  //   const token = localStorage.getItem('access_token');
-  //   this.authToken = token;
-  // }
+  loadToken() {
+    const token = localStorage.getItem('access_token');
+    this.authToken = token;
+  }
 
 
   loggedIn() {
-    return !this.helper.isTokenExpired();
+    return !(this.authToken == null);
   }
-
-  adminLoggedIn() {
-    if (!this.helper.isTokenExpired()) {
-      const aUser = localStorage.getItem('user');
-      if (aUser === null) {
-        return false;
-      }
-      this.user = JSON.parse(aUser);
-
-      if (this.user.permission === 'admin') {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
 
   logout() {
     this.authToken = null;
