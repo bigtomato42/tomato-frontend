@@ -1,6 +1,7 @@
 import {  Component,  OnInit} from '@angular/core';
 import {  Router} from '@angular/router';
 import {  AuthService} from '../../../services/auth.service';
+import { GroupService } from '../group-service.service';
 
 @Component({
   selector: 'app-create-group',
@@ -16,12 +17,15 @@ export class CreateGroupComponent implements OnInit {
   name: string;
   logo: any;
   constructor(private authService: AuthService,
-              private router: Router) {}
+              private router: Router,
+              private groupService: GroupService ) {}
 
   ngOnInit() {}
 
   onCreateSubmit() {
-    console.log(this.logo);
+    console.log(this.name);
+    this.groupService.createNewGroup(this.name).subscribe(res => console.log(res));
+
   }
 
 
