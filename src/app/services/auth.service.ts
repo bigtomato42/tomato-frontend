@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
 // import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+  catchError,
+  map,
+  tap
+} from 'rxjs/operators';
 
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { error } from '@angular/compiler/src/util';
+import {
+  HttpClient,
+  HttpHeaders
+} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,51 +26,72 @@ export class AuthService {
 
   userRole: string;
 
-  headers: HttpHeaders;
-
   constructor(private http: HttpClient) {
-    // this.storeToken(this.authToken);
-
     this.loadToken();
 
-    this.headers = new HttpHeaders();
-    this.headers.append('Content-Type', 'application/json');
-    if (this.loggedIn()) {
-      this.headers.append('Authorization', 'Token' + this.authToken);
-    }
     this.uri = 'https://bigtomato.herokuapp.com/';
-    // this.localhost = '';
   }
 
-  registerUser(user) {
-    console.log(user);
-    return this.http.get<any>(this.uri);
+  async registerUser(user) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return await this.http.post < any > (this.uri + 'users/', user, httpOptions).pipe(
+      tap((data: any) => {})
+    ).toPromise();
   }
 
-  authenticateUser(user) {
-    return this.http.post<any>(this.uri, user).subscribe(data => {
-      this.storeToken(data.token);
-      return true;
-    } ,
-      () => false            );
-      // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
+  async authenticateUser(user) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return await this.http.post < any > (this.uri + 'log_in/', user, httpOptions).pipe(
+      map(data => {
+        this.storeToken(data.token);
+        this.loadToken();
+        return { success: this.loggedIn() };
+        // console.log(data.token);
+      },
+      error => {})
+    ).toPromise();
+    // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
+  }
+
+  async profile() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Token ' + this.authToken
+      })
+    };
+
+    return await this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
+      this.user = {
+        name: data.name,
+        email: data.email,
+        username: data.username
+      };
+      this.storeUserData(this.user);
+      return this.user;
+    }, error => { })).toPromise();
 
   }
 
-   storeToken(token) {
-     if (token == null)    {
-      throw error('Token is null');
-    }
-     localStorage.setItem('access_token', token);
-     this.authToken = token;
-   }
+  storeToken(token) {
+    localStorage.setItem('access_token', token);
+    this.authToken = token;
+  }
 
-  // storeUserData(token, user) {
-  //   localStorage.setItem('access_token', token);
-  //   localStorage.setItem('user', JSON.stringify(user));
-  //   this.authToken = token;
-  //   this.user = user;
-  // }
+  storeUserData(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.user = user;
+  }
 
   loadToken() {
     const token = localStorage.getItem('access_token');

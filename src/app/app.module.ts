@@ -24,6 +24,7 @@ import { CreateGroupComponent } from './components/groups/create-group/create-gr
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyGroupsComponent } from './components/groups/my-groups/my-groups.component';
 import { GroupService } from './components/groups/group-service.service';
+import { GroupPageComponent } from './components/groups/group-page/group-page.component';
 
 const routes: Routes = [{
 path: '',
@@ -68,7 +69,8 @@ export function tokenGetter() {
     NavbarComponent,
     CreateGroupComponent,
     ProfileComponent,
-    MyGroupsComponent
+    MyGroupsComponent,
+    GroupPageComponent,
   ],
   imports: [
     BrowserModule,
