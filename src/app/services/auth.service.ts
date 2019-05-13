@@ -52,16 +52,18 @@ export class AuthService {
     };
 
     return await this.http.post < any > (this.uri + 'log_in/', user, httpOptions).pipe(
-      tap((data: any) => {
+      map(data => {
         this.storeToken(data.token);
         this.loadToken();
+        return { success: this.loggedIn() };
         // console.log(data.token);
-      })
+      },
+      error => {})
     ).toPromise();
     // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
   }
 
-  profile() {
+  async profile() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ export class AuthService {
       })
     };
 
-    return this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
+    return await this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
       this.user = {
         name: data.name,
         email: data.email,
@@ -77,7 +79,7 @@ export class AuthService {
       };
       this.storeUserData(this.user);
       return this.user;
-    }));
+    }, error => { })).toPromise();
 
   }
 
