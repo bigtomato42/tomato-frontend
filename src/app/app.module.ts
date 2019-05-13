@@ -23,6 +23,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateGroupComponent } from './components/groups/create-group/create-group.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyGroupsComponent } from './components/groups/my-groups/my-groups.component';
+import { GroupService } from './components/groups/group-service.service';
 import { GroupPageComponent } from './components/groups/group-page/group-page.component';
 
 const routes: Routes = [{
@@ -90,7 +91,9 @@ export function tokenGetter() {
     FlashMessagesService,
     AuthService,
     AuthGuard,
-    NotAuthGuard],
+    NotAuthGuard,
+    GroupService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
