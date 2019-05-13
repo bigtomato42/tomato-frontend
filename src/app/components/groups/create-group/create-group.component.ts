@@ -23,6 +23,8 @@ export class CreateGroupComponent implements OnInit {
   onCreateSubmit() {
     console.log(this.logo);
   }
+
+
   preview(files) {
     if (files.length === 0) {
       return;

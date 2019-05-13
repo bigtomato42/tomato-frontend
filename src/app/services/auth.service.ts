@@ -1,73 +1,78 @@
 import { Injectable } from '@angular/core';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+// import { JwtHelperService } from '@auth0/angular-jwt';
 
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { error } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  localhost: string;
+  uri: string;
 
   authToken: any;
   user: any;
 
   userRole: string;
 
-  constructor(private http: HttpClient, private helper: JwtHelperService) {
-    this.localhost = 'http://localhost:8000/';
-    // this.localhost = '';
+  headers: HttpHeaders;
 
+  constructor(private http: HttpClient) {
+    // this.storeToken(this.authToken);
+
+    this.loadToken();
+
+    this.headers = new HttpHeaders();
+    this.headers.append('Content-Type', 'application/json');
+    if (this.loggedIn()) {
+      this.headers.append('Authorization', 'Token' + this.authToken);
+    }
+    this.uri = 'https://bigtomato.herokuapp.com/';
+    // this.localhost = '';
   }
 
   registerUser(user) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.get<any>(this.localhost);
+    console.log(user);
+    return this.http.get<any>(this.uri);
   }
 
   authenticateUser(user) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.get<any>(this.localhost);
+    return this.http.post<any>(this.uri, user).subscribe(data => {
+      this.storeToken(data.token);
+      return true;
+    } ,
+      () => false            );
+      // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
 
   }
-  storeUserData(token, user) {
-    localStorage.setItem('access_token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    this.authToken = token;
-    this.user = user;
-  }
 
-  // loadToken() {
-  //   const token = localStorage.getItem('access_token');
+   storeToken(token) {
+     if (token == null)    {
+      throw error('Token is null');
+    }
+     localStorage.setItem('access_token', token);
+     this.authToken = token;
+   }
+
+  // storeUserData(token, user) {
+  //   localStorage.setItem('access_token', token);
+  //   localStorage.setItem('user', JSON.stringify(user));
   //   this.authToken = token;
+  //   this.user = user;
   // }
+
+  loadToken() {
+    const token = localStorage.getItem('access_token');
+    this.authToken = token;
+  }
 
 
   loggedIn() {
-    return !this.helper.isTokenExpired();
+    return !(this.authToken == null);
   }
-
-  adminLoggedIn() {
-    if (!this.helper.isTokenExpired()) {
-      const aUser = localStorage.getItem('user');
-      if (aUser === null) {
-        return false;
-      }
-      this.user = JSON.parse(aUser);
-
-      if (this.user.permission === 'admin') {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
 
   logout() {
     this.authToken = null;
