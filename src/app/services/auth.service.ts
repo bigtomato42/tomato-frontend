@@ -1,22 +1,11 @@
-import {
-  Injectable
-} from '@angular/core';
+import {  Injectable} from '@angular/core';
 
 // import { JwtHelperService } from '@auth0/angular-jwt';
-import {
-  catchError,
-  map,
-  tap
-} from 'rxjs/operators';
+import { catchError, map, tap} from 'rxjs/operators';
 
-import {
-  HttpClient,
-  HttpHeaders
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
   uri: string;
@@ -26,32 +15,31 @@ export class AuthService {
 
   userRole: string;
 
+  httpOptions = {};
+
   constructor(private http: HttpClient) {
+    this.uri = 'https://bigtomato.herokuapp.com/';
+
     this.loadToken();
 
-    this.uri = 'https://bigtomato.herokuapp.com/';
+    if (this.loggedIn()) {
+      this.httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: 'Token ' + this.authToken
+        })
+      };
+    }
   }
 
   async registerUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return await this.http.post < any > (this.uri + 'users/', user, httpOptions).pipe(
+    return await this.http.post < any > (this.uri + 'users/', user).pipe(
       tap((data: any) => {})
     ).toPromise();
   }
 
   async authenticateUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return await this.http.post < any > (this.uri + 'log_in/', user, httpOptions).pipe(
+    return await this.http.post<any>(this.uri + 'log_in/', user).pipe(
       map(data => {
         this.storeToken(data.token);
         this.loadToken();
@@ -64,14 +52,7 @@ export class AuthService {
   }
 
   async profile() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.authToken
-      })
-    };
-
-    return await this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
+    return await this.http.get < any > (this.uri + 'users/', this.httpOptions).pipe(map(data => {
       this.user = {
         name: data.name,
         email: data.email,

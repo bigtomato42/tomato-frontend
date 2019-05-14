@@ -20,10 +20,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.profile().then(data => {
-      console.log(data);
       this.user = data;
     }, error => { });
-    // console.log(this.user);
   }
 
 }

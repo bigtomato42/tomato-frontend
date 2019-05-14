@@ -26,13 +26,10 @@ import { MyGroupsComponent } from './components/groups/my-groups/my-groups.compo
 import { GroupService } from './components/groups/group-service.service';
 import { GroupPageComponent } from './components/groups/group-page/group-page.component';
 
-const routes: Routes = [{
+const routes: Routes = [
+  {
 path: '',
-  component: HomeComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'home',
-  component: HomeComponent, canActivate: [AuthGuard]
+  component: HomeComponent, canActivate: [AuthGuard], pathMatch: 'full'
 },
   {
     path: 'login',
@@ -53,6 +50,10 @@ path: '',
   {
     path: 'groups/my',
     component: MyGroupsComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: 'groups/:id',
+    component: GroupPageComponent, canActivate: [AuthGuard]
   }
 ];
 
