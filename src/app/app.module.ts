@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 // import { JwtModule } from '@auth0/angular-jwt';
 
@@ -12,7 +12,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notauth.guard';
 
 import { AuthService } from './services/auth.service';
-import { ValidateService } from './services/validate.service';
 
 import { AppComponent } from './app.component';
 
@@ -23,14 +22,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateGroupComponent } from './components/groups/create-group/create-group.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyGroupsComponent } from './components/groups/my-groups/my-groups.component';
-import { GroupService } from './components/groups/group-service.service';
+import { GroupsService } from './services/groups.service';
 import { GroupPageComponent } from './components/groups/group-page/group-page.component';
+import { SocketService } from './services/socket.service';
 
 const routes: Routes = [
   {
-path: '',
-  component: HomeComponent, canActivate: [AuthGuard], pathMatch: 'full'
-},
+    path: '',
+    component: HomeComponent, canActivate: [AuthGuard], pathMatch: 'full'
+  },
   {
     path: 'login',
     component: LoginComponent, canActivate: [NotAuthGuard]
@@ -88,12 +88,13 @@ export function tokenGetter() {
     //   }
     // })
   ],
-  providers: [ValidateService,
+  providers: [
     FlashMessagesService,
     AuthService,
     AuthGuard,
     NotAuthGuard,
-    GroupService
+    GroupsService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })

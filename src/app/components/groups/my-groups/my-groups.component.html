@@ -9,7 +9,7 @@
           <div class="cnt-block equal-hight" style="height: 349px;">
             <figure><img src="http://www.webcoderskull.com/img/team4.png" class="img-responsive" alt=""></figure>
             <h3><a [routerLink]="['/groups', myGroup.id]">{{myGroup.name}}</a></h3>
-            <p *ngFor="let user of myGroup.users">{{user.username}}</p>
+            <p>Admin: {{myGroup.owner.username}}</p>
             <ul class="follow-us clearfix">
               <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
               <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>

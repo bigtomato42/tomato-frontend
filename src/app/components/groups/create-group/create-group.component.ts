@@ -1,7 +1,7 @@
-import {  Component,  OnInit} from '@angular/core';
-import {  Router} from '@angular/router';
-import {  AuthService} from '../../../services/auth.service';
-import { GroupService } from '../group-service.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { GroupsService } from '../../../services/groups.service';
 
 @Component({
   selector: 'app-create-group',
@@ -16,11 +16,12 @@ export class CreateGroupComponent implements OnInit {
 
   name: string;
   logo: any;
-  constructor(private authService: AuthService,
-              private router: Router,
-              private groupService: GroupService ) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private groupService: GroupsService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onCreateSubmit() {
     console.log(this.name);
