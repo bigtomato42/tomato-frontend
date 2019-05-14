@@ -1,20 +1,31 @@
-<form  (submit)="onLoginSubmit()" name="loginForm"  #form="ngForm" class="form-signin">
-  
-  <div class="form-label-group">
-    <input [(ngModel)]="username" name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputEmail">Username</label>
-  </div>
-
-  <div class="form-label-group">
-    <input [(ngModel)]="password" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <label for="inputPassword">Password</label>
-  </div>
-<!-- 
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember Me
-    </label>
-  </div> -->
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2019</p>
-</form>
+<div class="container">
+        <div class="row justify-content-center pt-3">
+          <div class="col-md-6">
+            <div class="card">
+              <header class="card-header">
+                <a [routerLink]="['/register']" class="float-right btn btn-outline-primary mt-1">Register</a>
+                <h4 class="card-title mt-2">Log In</h4>
+              </header>
+              <article class="card-body">
+                <form  ngNativeValidate (submit)="onLoginSubmit()">
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input [(ngModel)]="username" required name="username" type="text" class="form-control">
+                  </div> <!-- form-group end.// -->
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input [(ngModel)]="password" required name="password" class="form-control" type="password">
+                  </div> <!-- form-group end.// -->
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Login </button>
+                  </div> <!-- form-group// -->
+                </form>
+              </article> <!-- card-body end .// -->
+              <div class="border-top card-body text-center">Need an account? <a [routerLink]="['/register']">Register</a></div>
+            </div> <!-- card.// -->
+          </div> <!-- col.//-->
+      
+        </div> <!-- row.//-->
+      
+      </div>
+      <!--container end.//-->
