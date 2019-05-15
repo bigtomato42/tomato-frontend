@@ -5,7 +5,7 @@ import { Event } from '../shared/model/event';
 
 import * as socketIo from 'socket.io-client';
 
-const SERVER_URL = 'http://localhost:8080';
+const SERVER_URL = 'https://tomatosocket.herokuapp.com/';
 
 @Injectable()
 export class SocketService {
