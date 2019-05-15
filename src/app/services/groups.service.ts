@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 })
 
 export class GroupsService {
-  configUrl = 'http://bigtomato.herokuapp.com/groups/';
+  configUrl = 'https://bigtomato.herokuapp.com/groups/';
   httpOptions = {};
 
   constructor(
