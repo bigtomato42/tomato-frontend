@@ -1,22 +1,11 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // import { JwtHelperService } from '@auth0/angular-jwt';
-import {
-  catchError,
-  map,
-  tap
-} from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
-import {
-  HttpClient,
-  HttpHeaders
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
   uri: string;
@@ -26,65 +15,48 @@ export class AuthService {
 
   userRole: string;
 
-  constructor(private http: HttpClient) {
-    this.loadToken();
 
+  constructor(private http: HttpClient) {
     this.uri = 'https://bigtomato.herokuapp.com/';
+    this.loadToken();
   }
 
   async registerUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return await this.http.post < any > (this.uri + 'users/', user, httpOptions).pipe(
-      tap((data: any) => {})
+    return await this.http.post<any>(this.uri + 'users/', user).pipe(
+      tap((data: any) => { })
     ).toPromise();
   }
 
   async authenticateUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return await this.http.post < any > (this.uri + 'log_in/', user, httpOptions).pipe(
+    return await this.http.post<any>(this.uri + 'log_in/', user).pipe(
       map(data => {
         this.storeToken(data.token);
         this.loadToken();
+
         return { success: this.loggedIn() };
         // console.log(data.token);
       },
-      error => {})
+        error => { })
     ).toPromise();
     // this.storeUserData(data.token, { name: data.name, email: data.email, username: data.username }));
   }
 
-  async profile() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.authToken
-      })
-    };
+  profile() {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    headers = headers.append('Authorization', this.authToken);
 
-    return await this.http.get < any > (this.uri + 'users/', httpOptions).pipe(map(data => {
-      this.user = {
-        name: data.name,
-        email: data.email,
-        username: data.username
-      };
+    return this.http.get<any>(this.uri + 'users/', { headers }).pipe(map(data => {
+      this.user = data;
       this.storeUserData(this.user);
       return this.user;
-    }, error => { })).toPromise();
+    }, error => { }));
 
   }
 
   storeToken(token) {
-    localStorage.setItem('access_token', token);
+    localStorage.setItem('access_token', 'Token ' + token);
     this.authToken = token;
   }
 
@@ -96,8 +68,22 @@ export class AuthService {
   loadToken() {
     const token = localStorage.getItem('access_token');
     this.authToken = token;
+
   }
 
+  getToken() {
+    return this.authToken;
+  }
+
+  loadUser() {
+    const user = localStorage.getItem('user');
+    this.user = JSON.parse(user);
+  }
+
+  getUsername() {
+    this.loadUser();
+    return this.user.username;
+  }
 
   loggedIn() {
     return !(this.authToken == null);
