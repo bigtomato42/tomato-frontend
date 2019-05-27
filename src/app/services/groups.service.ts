@@ -31,4 +31,8 @@ export class GroupsService {
   createNewGroup(name: string) {
     return this.http.post(this.configUrl, { name }, this.httpOptions);
   }
+
+  inviteUser(username: string, groupId) {
+    return this.http.post(this.configUrl + groupId + '/invite_users/', { users:username }, this.httpOptions);
+  }
 }

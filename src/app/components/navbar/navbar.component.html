@@ -21,6 +21,9 @@
         <a class="nav-link" [routerLink]="['/']" routerLinkActive="active-link" >Home</a>
       </li>
       <li *ngIf="authService.loggedIn()" class="nav-item">
+          <a class="nav-link" [routerLink]="['/groups/my']"  routerLinkActive="active-link" >My Groups</a>
+        </li>
+      <li *ngIf="authService.loggedIn()" class="nav-item">
         <a class="nav-link" [routerLink]="['/profile']"  routerLinkActive="active-link" >Profile</a>
       </li>
       <!-- <li *ngIf="authService.loggedIn()" class="nav-item">
