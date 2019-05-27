@@ -1,5 +1,51 @@
 <div class="row pt-5">
-  <div class="col-md-6">
+    <div class="card title col-md-4 m-1" style="width: 18rem;">
+        <div class="image-container">
+           <img src="../../../../assets/images/tomatoes.jpg" class="card-img-top" alt="...">
+           <div class="text-block">
+              <h4>The Awesome Group</h4>
+            </div>
+        </div>
+        <div class="card-body">
+          <div class="container">
+              <div class="items">
+                <div class="icon-wrapper">
+                  <i class="fa fa-clock-o"></i>
+                </div>
+                <div class="project-name">
+                  <p>DEFAULT 5</p>
+                  <div class="extra-information">
+                      <p>Work:5min BREAK:1min</p>
+                     </div>
+                </div>
+              </div>
+              <div class="items">
+                  <div class="icon-wrapper">
+                    <i class="fa fa fa-clock-o"></i>
+                  </div>
+                  <div class="project-name">
+                    <p>DEFAULT 15</p>
+                    <div class="extra-information">
+                     <p>Work:15min BREAK:5min</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="items">
+                    <div class="icon-wrapper">
+                      <i class="fa fa fa-clock-o"></i>
+                    </div>
+                    <div class="project-name">
+                      <p>DEFAULT 30</p>
+                      <div class="extra-information">
+                          <p>Work:30min BREAK:7min</p>
+                         </div>
+                    </div>
+                  </div>
+            </div>
+
+        </div>
+      </div>
+  <!-- <div class="col-md-6">
     <p>{{ group.id }} - {{ group.name }}</p>
     <p *ngFor="let groupUser of group.users">
       {{ groupUser.username }} {{ groupUser.status }}
@@ -10,10 +56,10 @@
         <button type="submit" class="btn btn-primary col-md-4">Invite User</button>
 
     </form>
-  </div>
+  </div> -->
 
   <!-- timer basic -->
-  <div class="card col-md-6">
+  <div class="card col-md-7 m-1">
     <div id="timer">
       <span id="minutes">{{ minsLeft }}</span>
       <span id="middle">:</span>
@@ -45,26 +91,35 @@
     </div>
   </div>
 
+  
   <!-- socket stuff -->
-  <div class="chat-container">
-    <div class="main-card">
-      <div class="chat-footer-container">
-        <ul class="row">
-          <li class="col-12 col-md-6 col-lg-3" *ngFor="let message of messages">
-            {{ message.content }}
-          </li>
-        </ul>
-        <p>message</p>
-        <div class="chat-input">
-          <input
-            matInput
+  <div class="card title col-md-4 m-1" style="width: 18rem;">
+    <div class="chat-container">
+      <div class="main-card">
+          
+        <h3 style="text-align: center; background-color: gray;">
+          <i class="fa fa-comments-o" aria-hidden="true"></i>
+         SIMPLE CHAT ROOM <i class="fa fa-comments-o" aria-hidden="true"></i></h3>
+        <div class="chat-footer-container">
+            <div style="overflow-y: auto; height:135px;">
+          <ul class="row">
+            <li *ngFor="let message of messages">
+              {{ message.content }}
+            </li>
+          </ul>
+          </div>
+          <div class="input-group input-group-sm mb-0">
+            <div (click)="sendMessage(messageContent)" style="cursor: pointer;" class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">SEND</span>
+            </div>
+            <input matInput
             #inputMessage
             maxlength="140"
             placeholder="Type your message"
             [(ngModel)]="messageContent"
-            (keyup.enter)="sendMessage(messageContent)"
-          />
-          <p>{{ inputMessage.value.length }}/140</p>
+            (keyup.enter)="sendMessage(messageContent)" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+
         </div>
       </div>
     </div>
