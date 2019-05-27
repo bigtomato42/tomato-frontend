@@ -51,10 +51,23 @@
       {{ groupUser.username }} {{ groupUser.status }}
     </p>
 
-    <form *ngIf="groupOwner" ngNativeValidate (submit)="onInviteUser()" class="row">
-        <input [(ngModel)]="inviteUser" required name="inviteUser" type="text" class="form-control col-md-7 m-1" placeholder="Username to Invite">
-        <button type="submit" class="btn btn-primary col-md-4">Invite User</button>
-
+    <form
+      *ngIf="groupOwner"
+      ngNativeValidate
+      (submit)="onInviteUser()"
+      class="row"
+    >
+      <input
+        [(ngModel)]="inviteUser"
+        required
+        name="inviteUser"
+        type="text"
+        class="form-control col-md-7 m-1"
+        placeholder="Username to Invite"
+      />
+      <button type="submit" class="btn btn-primary col-md-4">
+        Invite User
+      </button>
     </form>
   </div> -->
 
@@ -67,14 +80,16 @@
     </div>
 
     <div id="buttons" class="text-center">
-      <button *ngIf="!timerRunning" 
+      <button
+        *ngIf="!timerRunning"
         id="start"
         class="btn btn-lg btn-outline-primary m-1"
         (click)="startTimer()"
       >
         <i class="fa fa-play-circle"></i>
       </button>
-      <button *ngIf="timerRunning" 
+      <button
+        *ngIf="timerRunning"
         id="stop"
         class="btn btn-lg btn-outline-info m-1"
         (click)="pauseTimer()"
@@ -123,5 +138,31 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- tasks -->
+  <div class="col-md-6">
+    <form ngNativeValidate (submit)="onTaskCreate()" class="row">
+      <input
+        [(ngModel)]="taskName"
+        required
+        name="taskName"
+        type="text"
+        class="form-control col-md-7 m-1"
+        placeholder="Name of the Task"
+      />
+      <button type="submit" class="btn btn-primary col-md-4">
+        Create Task
+      </button>
+    </form>
+    <p *ngFor="let task of tasks">
+      {{ task.id }} {{ task.name }} {{ task.finished }}
+      <button class="btn btn-success" (click)="onTaskFinished(task.id)">
+        Mark Finished
+      </button>
+      <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
+        Delete
+      </button>
+    </p>
   </div>
 </div>
