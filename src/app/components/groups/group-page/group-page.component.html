@@ -1,33 +1,71 @@
-<p>
-  {{group.id}} - {{group.name}}</p>
-<p *ngFor="let groupUser of group.users">{{groupUser.username}} {{groupUser.status}}</p>
-<p></p>
+<div class="row pt-5">
+  <div class="col-md-6">
+    <p>{{ group.id }} - {{ group.name }}</p>
+    <p *ngFor="let groupUser of group.users">
+      {{ groupUser.username }} {{ groupUser.status }}
+    </p>
 
-<!-- timer basic -->
-<button class="btn btn-primary p-1 m-1" (click)='startTimer()'>Start Timer</button>
-<button class="btn btn-danger p-1 m-1" (click)='pauseTimer()'>Pause</button>
+    <form *ngIf="groupOwner" ngNativeValidate (submit)="onInviteUser()" class="row">
+        <input [(ngModel)]="inviteUser" required name="inviteUser" type="text" class="form-control col-md-7 m-1" placeholder="Username to Invite">
+        <button type="submit" class="btn btn-primary col-md-4">Invite User</button>
 
-<p class="text-info">{{timeLeft}} Seconds Left....</p>
+    </form>
+  </div>
 
+  <!-- timer basic -->
+  <div class="card col-md-6">
+    <div id="timer">
+      <span id="minutes">{{ minsLeft }}</span>
+      <span id="middle">:</span>
+      <span id="seconds">{{ secsLeft }}</span>
+    </div>
 
+    <div id="buttons" class="text-center">
+      <button *ngIf="!timerRunning" 
+        id="start"
+        class="btn btn-lg btn-outline-primary m-1"
+        (click)="startTimer()"
+      >
+        <i class="fa fa-play-circle"></i>
+      </button>
+      <button *ngIf="timerRunning" 
+        id="stop"
+        class="btn btn-lg btn-outline-info m-1"
+        (click)="pauseTimer()"
+      >
+        <i class="fa fa-pause-circle"></i>
+      </button>
+      <button
+        id="reset"
+        class="btn btn-lg btn-outline-danger m-1"
+        (click)="resetTimer()"
+      >
+        <i class="fa fa-undo"></i>
+      </button>
+    </div>
+  </div>
 
-<!-- test socket stuff -->
-<div class="chat-container">
-  <div class="main-card">
-    <div class="chat-footer-container">
-      <div class="row heading heading-icon">
-        <h2>MY GROUPS</h2>
-      </div>
-      <ul class="row">
-        <li class="col-12 col-md-6 col-lg-3" *ngFor="let message of messages">
-          {{message.content}}
-        </li>
-      </ul>
-      <p>message</p>
-      <div class="chat-input">
-        <input matInput #inputMessage maxlength="140" placeholder="Type your message" [(ngModel)]="messageContent"
-          (keyup.enter)="sendMessage(messageContent)">
-        <p>{{inputMessage.value.length}}/140</p>
+  <!-- socket stuff -->
+  <div class="chat-container">
+    <div class="main-card">
+      <div class="chat-footer-container">
+        <ul class="row">
+          <li class="col-12 col-md-6 col-lg-3" *ngFor="let message of messages">
+            {{ message.content }}
+          </li>
+        </ul>
+        <p>message</p>
+        <div class="chat-input">
+          <input
+            matInput
+            #inputMessage
+            maxlength="140"
+            placeholder="Type your message"
+            [(ngModel)]="messageContent"
+            (keyup.enter)="sendMessage(messageContent)"
+          />
+          <p>{{ inputMessage.value.length }}/140</p>
+        </div>
       </div>
     </div>
   </div>

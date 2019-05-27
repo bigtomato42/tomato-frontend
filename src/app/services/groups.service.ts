@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 })
 
 export class GroupsService {
-  configUrl = 'http://bigtomato.herokuapp.com/groups/';
+  configUrl = 'https://bigtomato.herokuapp.com/groups/';
   httpOptions = {};
 
   constructor(
@@ -30,5 +30,9 @@ export class GroupsService {
 
   createNewGroup(name: string) {
     return this.http.post(this.configUrl, { name }, this.httpOptions);
+  }
+
+  inviteUser(username: string, groupId) {
+    return this.http.post(this.configUrl + groupId + '/invite_users/', { users:username }, this.httpOptions);
   }
 }

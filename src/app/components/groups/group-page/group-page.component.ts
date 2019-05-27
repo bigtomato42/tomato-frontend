@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap, NavigationStart } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
@@ -15,63 +15,101 @@ import { SocketService } from '../../../services/socket.service';
   templateUrl: './group-page.component.html',
   styleUrls: ['./group-page.component.scss']
 })
-export class GroupPageComponent implements OnInit {
+export class GroupPageComponent implements OnInit, OnDestroy {
 
   group: any;
   username: any;
-  timeLeft = 60;
-  interval;
-  subscribeTimer: any;
 
+  groupOwner = false;
+  inviteUser: string;
+
+  minsLeft;
+  secsLeft;
+  interval;
+  timerRunning = false;
   messages: Message[] = [];
   messageContent: string;
+
   ioConnection: any;
   ioConnection2: any;
+
+  private routeSub: any;  // subscription to route observer
 
   constructor(
     private groupService: GroupsService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
-    private socketService: SocketService) { }
+    private socketService: SocketService) {
+
+    this.minsLeft = 5;
+    this.secsLeft = 0;
+
+  }
 
   async ngOnInit() {
+    // current user
     this.username = this.authService.getUsername();
+
+    // get group details
     await this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.group = this.groupService.getGroupDetails(params.get('id'))
       )).subscribe(data => {
         this.group = data;
-        this.initIoConnection();
+        if (this.group.owner.username === this.username) { this.groupOwner = true; }
+        // initialize socket
 
+        this.initIoConnection();
       }
       );
-    // this.groupService.getGroupDetails(id).subscribe(res => this.group = res);
 
-
-  }
-
-
-  // timer
-  oberserableTimer() {
-    const source = timer(1000, 2000);
-    const abc = source.subscribe(val => {
-      console.log(val, '-');
-      this.subscribeTimer = this.timeLeft - val;
+    // on exit component
+    this.routeSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.disconnectUser();
+      }
     });
   }
 
+  public ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
+
+  // invite users
+  onInviteUser() {
+    this.groupService.inviteUser(this.inviteUser, this.group.id).subscribe(res => console.log(res));
+  }
+
+  // timer
   startTimer() {
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 60;
-      }
-    }, 1000);
+    this.timerRunning = !this.timerRunning;
+    if (this.timerRunning) {
+      this.interval = setInterval(() => {
+        if (this.secsLeft > 0) {
+          this.secsLeft--;
+        } else {
+          if (this.minsLeft === 0) {
+            this.pauseTimer();
+          } else {
+            this.secsLeft = 59;
+            this.minsLeft--;
+          }
+        }
+      }, 1000);
+    }
   }
 
   pauseTimer() {
+    this.timerRunning = !this.timerRunning;
     clearInterval(this.interval);
+  }
+
+  resetTimer() {
+    this.pauseTimer();
+    this.minsLeft = 5;
+    this.secsLeft = 0;
+    this.timerRunning = false;
   }
 
   // socket connection
@@ -91,19 +129,26 @@ export class GroupPageComponent implements OnInit {
 
     this.ioConnection = this.socketService.onStatusUpdate()
       .subscribe((data) => {
-        console.log(data)
+        // console.log(data)
         const theUser = this.group.users.find(user => user.username === data.username);
 
         if (theUser != null) {
           const index = this.group.users.indexOf(theUser);
-          this.group.users[index].status = data.info;
-          console.log(theUser);
+          this.group.users[index].status = data.status;
+          // console.log(theUser);
         }
       });
 
-    this.socketService.onEvent(Event.DISCONNECT, { room: this.group.id, user: this.username })
-      .subscribe(() => {
-        console.log('disconnected');
+    this.ioConnection = this.socketService.onGetUsers()
+      .subscribe((data) => {
+        data.forEach(user => {
+          const theUser = this.group.users.find(u => u.username === user.username);
+
+          if (theUser != null) {
+            const index = this.group.users.indexOf(theUser);
+            this.group.users[index].status = user.status;
+          }
+        });
       });
   }
 
@@ -119,24 +164,10 @@ export class GroupPageComponent implements OnInit {
     this.messageContent = null;
   }
 
-  // public sendNotification(params: any, action: Action): void {
-  //   let message: Message;
 
-  //   if (action === Action.JOINED) {
-  //     message = {
-  //       from: this.user,
-  //       action
-  //     };
-  //   } else if (action === Action.RENAME) {
-  //     message = {
-  //       action,
-  //       content: {
-  //         username: this.user.name,
-  //         previousUsername: params.previousUsername
-  //       }
-  //     };
-  //   }
+  public disconnectUser(): void {
+    this.socketService.disconnectUser();
+    console.log('disconnected');
+  }
 
-  //   this.socketService.send(message);
-  // }
 }

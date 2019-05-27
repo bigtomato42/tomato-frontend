@@ -5,7 +5,8 @@ import { Event } from '../shared/model/event';
 
 import * as socketIo from 'socket.io-client';
 
-const SERVER_URL = 'http://localhost:8080';
+// const SERVER_URL = 'http://localhost:8080/';
+const SERVER_URL = 'https://tomatosocket.herokuapp.com/';
 
 @Injectable()
 export class SocketService {
@@ -19,6 +20,10 @@ export class SocketService {
         this.socket.emit('message', { room, message });
     }
 
+    public disconnectUser(): void {
+        this.socket.emit('disconnected');
+    }
+
     public onMessage(): Observable<Message> {
         return new Observable<Message>(observer => {
             this.socket.on('message', (data: Message) => observer.next(data));
@@ -28,6 +33,12 @@ export class SocketService {
     public onStatusUpdate() {
         return new Observable<any>(observer => {
             this.socket.on('status', (data) => observer.next(data));
+        });
+    }
+
+    public onGetUsers() {
+        return new Observable<any>(observer => {
+            this.socket.on('users', (data) => observer.next(data));
         });
     }
 
