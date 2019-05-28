@@ -19,9 +19,11 @@ export class GroupPageComponent implements OnInit, OnDestroy {
 
   group: any;
   username: any;
-
+  tasks: any;
   groupOwner = false;
   inviteUser: string;
+
+  taskName: string;
 
   minsLeft;
   secsLeft;
@@ -58,11 +60,18 @@ export class GroupPageComponent implements OnInit, OnDestroy {
       )).subscribe(data => {
         this.group = data;
         if (this.group.owner.username === this.username) { this.groupOwner = true; }
-        // initialize socket
 
+        // get tasks
+        this.groupService.getTasks(this.group.id).subscribe(res => {
+          this.tasks = res;
+        });
+        // initialize socket
         this.initIoConnection();
       }
       );
+
+
+
 
     // on exit component
     this.routeSub = this.router.events.subscribe((event) => {
@@ -75,10 +84,29 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.routeSub.unsubscribe();
   }
-
+  // get tasks
+  getTasks() {
+    this.groupService.getTasks(this.group.id).subscribe(res => {
+      this.tasks = res;
+    });
+  }
   // invite users
   onInviteUser() {
     this.groupService.inviteUser(this.inviteUser, this.group.id).subscribe(res => console.log(res));
+  }
+
+  // create task
+  onTaskCreate() {
+    this.groupService.createTask(this.group.id, this.taskName).subscribe(res => this.getTasks());
+  }
+
+  // task finished
+  onTaskFinished(id) {
+    this.groupService.finishTask(id).subscribe(res => this.getTasks());
+  }
+  // del task
+  onTaskDelete(id) {
+    this.groupService.deleteTask(id).subscribe(res => this.getTasks());
   }
 
   // timer
@@ -152,6 +180,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  // send message 
   public sendMessage(message: string): void {
     if (!message) {
       return;

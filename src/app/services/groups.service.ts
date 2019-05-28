@@ -6,7 +6,8 @@ import { AuthService } from './auth.service';
 })
 
 export class GroupsService {
-  configUrl = 'https://bigtomato.herokuapp.com/groups/';
+  groupConfigUrl = 'https://bigtomato.herokuapp.com/groups/';
+  taskConfigUrl = 'https://bigtomato.herokuapp.com/tasks/';
   httpOptions = {};
 
   constructor(
@@ -21,18 +22,42 @@ export class GroupsService {
   }
 
   getMyGroups() {
-    // delete this
-    return this.http.get(this.configUrl, this.httpOptions);
+    return this.http.get(this.groupConfigUrl, this.httpOptions);
   }
   getGroupDetails(id: string) {
-    return this.http.get(this.configUrl + id, this.httpOptions);
+    return this.http.get(this.groupConfigUrl + id, this.httpOptions);
   }
 
   createNewGroup(name: string) {
-    return this.http.post(this.configUrl, { name }, this.httpOptions);
+    return this.http.post(this.groupConfigUrl, { name }, this.httpOptions);
   }
 
   inviteUser(username: string, groupId) {
-    return this.http.post(this.configUrl + groupId + '/invite_users/', { users:username }, this.httpOptions);
+    return this.http.post(this.groupConfigUrl + groupId + '/invite_users/', { users: username }, this.httpOptions);
+  }
+
+  getTasks(groupId) {
+    return this.http.get(this.taskConfigUrl + `?group=${groupId}`, this.httpOptions);
+  }
+
+  createTask(group, name) {
+    return this.http.post(this.taskConfigUrl, { group, name }, this.httpOptions);
+
+  }
+  finishTask(id) {
+    return this.http.patch(this.taskConfigUrl + `${id}/`, { finished: true }, this.httpOptions);
+
+  }
+
+  deleteTask(id) {
+    return this.http.delete(this.taskConfigUrl + `${id}/`, this.httpOptions);
+  }
+
+  getMyInvitations() {
+    return this.http.get(this.groupConfigUrl + 'pending_invitations/', this.httpOptions);
+  }
+
+  acceptInvitation(id, name) {
+    return this.http.post(this.groupConfigUrl + `${id}/accept_invitation/`, {name}, this.httpOptions);
   }
 }
