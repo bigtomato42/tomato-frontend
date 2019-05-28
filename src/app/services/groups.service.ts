@@ -22,7 +22,6 @@ export class GroupsService {
   }
 
   getMyGroups() {
-    // delete this
     return this.http.get(this.groupConfigUrl, this.httpOptions);
   }
   getGroupDetails(id: string) {
@@ -52,5 +51,13 @@ export class GroupsService {
 
   deleteTask(id) {
     return this.http.delete(this.taskConfigUrl + `${id}/`, this.httpOptions);
+  }
+
+  getMyInvitations() {
+    return this.http.get(this.groupConfigUrl + 'pending_invitations/', this.httpOptions);
+  }
+
+  acceptInvitation(id, name) {
+    return this.http.post(this.groupConfigUrl + `${id}/accept_invitation/`, {name}, this.httpOptions);
   }
 }

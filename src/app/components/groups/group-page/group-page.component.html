@@ -140,30 +140,39 @@
         Create Task
       </button>
     </form>
-    <div *ngFor="let task of tasks" class="tasklist">
-      <p>
-        {{ task.name }}
-        <button
-          *ngIf="!task.finished"
-          class="btn btn-success"
-          (click)="onTaskFinished(task.id)"
-        >
-          Finished
-        </button>
-        <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
-          Delete
-        </button>
-      </p>
-    </div>
+    <ul *ngFor="let task of tasks" class="list-group">
+      <li class="list-group-item">
+        <p>
+          {{ task.name }}
+          <button
+            *ngIf="!task.finished"
+            class="btn btn-success"
+            (click)="onTaskFinished(task.id)"
+          >
+            Finished
+          </button>
+          <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
+            Delete
+          </button>
+        </p>
+      </li>
+    </ul>
   </div>
 
   <!-- group members -->
   <div class="col-md-6">
-      <ul *ngFor="let groupUser of group.users" class="list-group">
-          <li class="list-group-item">{{ groupUser.username }} : {{ groupUser.status }}</li>
-        </ul>
+    <ul *ngFor="let groupUser of group.users" class="list-group">
+      <li class="list-group-item text-info">
+        {{ groupUser.username }} : {{ groupUser.status }}
+      </li>
+    </ul>
 
-    <form *ngIf="groupOwner" ngNativeValidate (submit)="onInviteUser()" class="row">
+    <form
+      *ngIf="groupOwner"
+      ngNativeValidate
+      (submit)="onInviteUser()"
+      class="row"
+    >
       <input
         [(ngModel)]="inviteUser"
         required
