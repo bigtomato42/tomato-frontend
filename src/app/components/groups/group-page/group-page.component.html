@@ -1,7 +1,7 @@
 <div class="row pt-5">
     <div class="card title col-md-4 m-1" style="width: 18rem;">
         <div class="image-container">
-           <img src="../../../../assets/images/tomatoes.jpg" class="card-img-top" alt="...">
+           <img src="https://picsum.photos/600/270" class="card-img-top" alt="...">
            <div class="text-block">
               <h4>The Awesome Group</h4>
             </div>
@@ -111,12 +111,12 @@
   <div class="card title col-md-4 m-1" style="width: 18rem;">
     <div class="chat-container">
       <div class="main-card">
-          
-        <h3 style="text-align: center; background-color: gray;">
+        <h3>
           <i class="fa fa-comments-o" aria-hidden="true"></i>
-         SIMPLE CHAT ROOM <i class="fa fa-comments-o" aria-hidden="true"></i></h3>
+         SIMPLE CHAT ROOM 
+          <i class="fa fa-comments-o" aria-hidden="true"></i></h3>
         <div class="chat-footer-container">
-            <div style="overflow-y: auto; height:135px;">
+            <div class="chat-log">
           <ul class="row">
             <li *ngFor="let message of messages">
               {{ message.content }}
@@ -141,7 +141,7 @@
   </div>
 
   <!-- tasks -->
-  <div class="col-md-6">
+  <div class="card col-md-7 m-1">
     <form ngNativeValidate (submit)="onTaskCreate()" class="row">
       <input
         [(ngModel)]="taskName"

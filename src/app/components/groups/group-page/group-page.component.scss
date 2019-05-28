@@ -23,10 +23,19 @@ ul {
 .card-body{
   padding: 0;
 }
+
+.card {
+  height: 380px;
+}
 .image-container {
   position: relative;
   display: inline-block;
 }
+
+.card-img-top {
+  height: 213px;
+}
+
 
 .text-block {
   position: absolute;
@@ -97,4 +106,26 @@ $sec: black;
   & .icon-wrapper i {
     transform: translateX(5px);
   }
+}
+
+.main-card h3 {
+  text-align: center;
+  background-color: gray;
+  font-size: 3vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 5vh;
+  white-space: nowrap;
+}
+
+.chat-log {
+  overflow-y: auto;
+  height: 325px;
+  background-color: #efefef;
+}
+
+.input-group {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
