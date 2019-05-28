@@ -1,75 +1,49 @@
 <div class="row pt-5">
-    <div class="card title col-md-4 m-1" style="width: 18rem;">
-        <div class="image-container">
-           <img src="https://picsum.photos/600/270" class="card-img-top" alt="...">
-           <div class="text-block">
-              <h4>The Awesome Group</h4>
+  <div class="card title col-md-4 m-1" style="width: 18rem;">
+    <div class="image-container">
+      <img src="https://picsum.photos/600/270" class="card-img-top" alt="..." />
+      <div class="text-block">
+        <h4>The Awesome Group</h4>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="container">
+        <div class="items">
+          <div class="icon-wrapper">
+            <i class="fa fa-clock-o"></i>
+          </div>
+          <div class="project-name">
+            <p>DEFAULT 5</p>
+            <div class="extra-information">
+              <p>Work:5min BREAK:1min</p>
             </div>
+          </div>
         </div>
-        <div class="card-body">
-          <div class="container">
-              <div class="items">
-                <div class="icon-wrapper">
-                  <i class="fa fa-clock-o"></i>
-                </div>
-                <div class="project-name">
-                  <p>DEFAULT 5</p>
-                  <div class="extra-information">
-                      <p>Work:5min BREAK:1min</p>
-                     </div>
-                </div>
-              </div>
-              <div class="items">
-                  <div class="icon-wrapper">
-                    <i class="fa fa fa-clock-o"></i>
-                  </div>
-                  <div class="project-name">
-                    <p>DEFAULT 15</p>
-                    <div class="extra-information">
-                     <p>Work:15min BREAK:5min</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="items">
-                    <div class="icon-wrapper">
-                      <i class="fa fa fa-clock-o"></i>
-                    </div>
-                    <div class="project-name">
-                      <p>DEFAULT 30</p>
-                      <div class="extra-information">
-                          <p>Work:30min BREAK:7min</p>
-                         </div>
-                    </div>
-                  </div>
+        <div class="items">
+          <div class="icon-wrapper">
+            <i class="fa fa fa-clock-o"></i>
+          </div>
+          <div class="project-name">
+            <p>DEFAULT 15</p>
+            <div class="extra-information">
+              <p>Work:15min BREAK:5min</p>
             </div>
-
+          </div>
+        </div>
+        <div class="items">
+          <div class="icon-wrapper">
+            <i class="fa fa fa-clock-o"></i>
+          </div>
+          <div class="project-name">
+            <p>DEFAULT 30</p>
+            <div class="extra-information">
+              <p>Work:30min BREAK:7min</p>
+            </div>
+          </div>
         </div>
       </div>
-  <!-- <div class="col-md-6">
-    <p>{{ group.id }} - {{ group.name }}</p>
-    <p *ngFor="let groupUser of group.users">
-      {{ groupUser.username }} {{ groupUser.status }}
-    </p>
-
-    <form
-      *ngIf="groupOwner"
-      ngNativeValidate
-      (submit)="onInviteUser()"
-      class="row"
-    >
-      <input
-        [(ngModel)]="inviteUser"
-        required
-        name="inviteUser"
-        type="text"
-        class="form-control col-md-7 m-1"
-        placeholder="Username to Invite"
-      />
-      <button type="submit" class="btn btn-primary col-md-4">
-        Invite User
-      </button>
-    </form>
-  </div> -->
+    </div>
+  </div>
 
   <!-- timer basic -->
   <div class="card col-md-7 m-1">
@@ -106,63 +80,101 @@
     </div>
   </div>
 
-  
-  <!-- socket stuff -->
+  <!-- socket chat -->
   <div class="card title col-md-4 m-1" style="width: 18rem;">
     <div class="chat-container">
       <div class="main-card">
         <h3>
           <i class="fa fa-comments-o" aria-hidden="true"></i>
-         SIMPLE CHAT ROOM 
-          <i class="fa fa-comments-o" aria-hidden="true"></i></h3>
+          SIMPLE CHAT ROOM
+          <i class="fa fa-comments-o" aria-hidden="true"></i>
+        </h3>
         <div class="chat-footer-container">
-            <div class="chat-log">
-          <ul class="row">
-            <li *ngFor="let message of messages">
-              {{ message.content }}
-            </li>
-          </ul>
+          <div class="chat-log">
+            <ul class="row">
+              <li *ngFor="let message of messages">
+                {{ message.content }} - {{ message.from }}
+              </li>
+            </ul>
           </div>
           <div class="input-group input-group-sm mb-0">
-            <div (click)="sendMessage(messageContent)" style="cursor: pointer;" class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-sm">SEND</span>
+            <div
+              (click)="sendMessage(messageContent)"
+              style="cursor: pointer;"
+              class="input-group-prepend"
+            >
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >SEND</span
+              >
             </div>
-            <input matInput
-            #inputMessage
-            maxlength="140"
-            placeholder="Type your message"
-            [(ngModel)]="messageContent"
-            (keyup.enter)="sendMessage(messageContent)" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-
+            <input
+              matInput
+              #inputMessage
+              maxlength="140"
+              placeholder="Type your message"
+              [(ngModel)]="messageContent"
+              (keyup.enter)="sendMessage(messageContent)"
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- tasks -->
-  <div class="card col-md-7 m-1">
+  <div class="tasks card col-md-7 m-1">
     <form ngNativeValidate (submit)="onTaskCreate()" class="row">
       <input
         [(ngModel)]="taskName"
         required
         name="taskName"
         type="text"
-        class="form-control col-md-7 m-1"
+        class="form-control col-md-8 m-1 "
         placeholder="Name of the Task"
       />
-      <button type="submit" class="btn btn-primary col-md-4">
+      <button type="submit" class="btn btn-primary col-md-3">
         Create Task
       </button>
     </form>
-    <p *ngFor="let task of tasks">
-      {{ task.id }} {{ task.name }} {{ task.finished }}
-      <button class="btn btn-success" (click)="onTaskFinished(task.id)">
-        Mark Finished
+    <div *ngFor="let task of tasks" class="tasklist">
+      <p>
+        {{ task.name }}
+        <button
+          *ngIf="!task.finished"
+          class="btn btn-success"
+          (click)="onTaskFinished(task.id)"
+        >
+          Finished
+        </button>
+        <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
+          Delete
+        </button>
+      </p>
+    </div>
+  </div>
+
+  <!-- group members -->
+  <div class="col-md-6">
+      <ul *ngFor="let groupUser of group.users" class="list-group">
+          <li class="list-group-item">{{ groupUser.username }} : {{ groupUser.status }}</li>
+        </ul>
+
+    <form *ngIf="groupOwner" ngNativeValidate (submit)="onInviteUser()" class="row">
+      <input
+        [(ngModel)]="inviteUser"
+        required
+        name="inviteUser"
+        type="text"
+        class="form-control col-md-9"
+        placeholder="Username to Invite"
+      />
+      <button type="submit" class="btn btn-primary col-md-3">
+        Invite User
       </button>
-      <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
-        Delete
-      </button>
-    </p>
+    </form>
   </div>
 </div>

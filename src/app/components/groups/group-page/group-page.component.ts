@@ -180,6 +180,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  // send message 
   public sendMessage(message: string): void {
     if (!message) {
       return;
