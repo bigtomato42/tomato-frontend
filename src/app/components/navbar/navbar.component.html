@@ -4,21 +4,27 @@
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
+  <div  class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/']">Tomato Timer</a>
+        <a class="nav-link" [routerLink]="['/']"  routerLinkActive="active-link" >Tomato Timer</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li *ngIf="!authService.loggedIn()" class="nav-item">
-        <a class="nav-link" [routerLink]="['/login']">Login</a>
+        <a class="nav-link" [routerLink]="['/login']"  routerLinkActive="active-link" >Login</a>
       </li>
       <li *ngIf="!authService.loggedIn()" class="nav-item">
-        <a class="nav-link" [routerLink]="['/register']">Register</a>
+        <a class="nav-link" [routerLink]="['/register']"  routerLinkActive="active-link" >Register</a>
       </li>
       <li *ngIf="authService.loggedIn()" class="nav-item">
-        <a class="nav-link" [routerLink]="['/']">Home</a>
+        <a class="nav-link" [routerLink]="['/']" routerLinkActive="active-link" >Home</a>
+      </li>
+      <li *ngIf="authService.loggedIn()" class="nav-item">
+          <a class="nav-link" [routerLink]="['/groups/my']"  routerLinkActive="active-link" >My Groups</a>
+        </li>
+      <li *ngIf="authService.loggedIn()" class="nav-item">
+        <a class="nav-link" [routerLink]="['/profile']"  routerLinkActive="active-link" >Profile</a>
       </li>
       <!-- <li *ngIf="authService.loggedIn()" class="nav-item">
         <a class="nav-link" [routerLink]="['/profile']">Profile</a>
@@ -27,7 +33,7 @@
         <a class="nav-link" [routerLink]="['/users/manage']">Manage Users</a>
       </li> -->
       <li *ngIf="authService.loggedIn()" class="nav-item">
-        <a class="nav-link" (click)="onLogOutClick()" href="#">Logout</a>
+        <a class="nav-link" (click)="onLogOutClick()" href="#"  routerLinkActive="active-link" >Logout</a>
       </li>
     </ul>
   </div>

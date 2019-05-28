@@ -4,8 +4,6 @@ import { FlashMessagesService } from 'angular2-flash-messages/module';
 
 import { AuthService } from '../../services/auth.service';
 
-import {User} from '../../Shared/user';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
