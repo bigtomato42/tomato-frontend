@@ -24,9 +24,9 @@ ul {
   padding: 0;
 }
 
-.card {
-  height: 380px;
-}
+// .card {
+//   height: 380px;
+// }
 .image-container {
   position: relative;
   display: inline-block;
@@ -133,4 +133,8 @@ $sec: black;
   text-align: right;
   float: right;
   margin: 1px;
+}
+
+.taskName {
+  min-width: 75%;
 }

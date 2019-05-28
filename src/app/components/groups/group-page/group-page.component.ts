@@ -97,7 +97,10 @@ export class GroupPageComponent implements OnInit, OnDestroy {
 
   // create task
   onTaskCreate() {
-    this.groupService.createTask(this.group.id, this.taskName).subscribe(res => this.getTasks());
+    this.groupService.createTask(this.group.id, this.taskName).subscribe(res => {
+      this.getTasks();
+      this.taskName = '';
+    });
   }
 
   // task finished
