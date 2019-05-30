@@ -110,7 +110,7 @@ $sec: black;
 .main-card h3 {
   text-align: center;
   background-color: gray;
-  font-size: 3vh;
+  // font-size: 3vh;
   margin-top: 0;
   margin-bottom: 0;
   height: 5vh;
@@ -119,8 +119,7 @@ $sec: black;
 
 .chat-log {
   overflow-y: auto;
-  height: 325px;
-  background-color: #efefef;
+  height: 220px;
 }
 
 .input-group {
@@ -134,7 +133,14 @@ $sec: black;
   float: right;
   margin: 1px;
 }
-
+.tasks{
+  overflow-y: auto;
+  height: 400px;
+}
 .taskName {
   min-width: 75%;
+}
+
+.members .items {
+  height: 30px !important;
 }

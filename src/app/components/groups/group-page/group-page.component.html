@@ -1,194 +1,204 @@
-<div class="row pt-5">
-  <div class="card title col-md-4 m-1" style="width: 18rem;">
-    <div class="image-container">
-      <img src="https://picsum.photos/600/270" class="card-img-top" alt="..." />
-      <div class="text-block">
-        <h4>The Awesome Group</h4>
+<div class="container">
+  <div class="row pt-2">
+    <div class="card title col-md-4" style="width: 18rem;">
+      <div class="image-container">
+        <img
+          src="../../../assets/images/group-cover.png"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="text-block">
+          <h4>The Awesome Group</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="container">
+          <div class="items" (click)="setTimerPattern(5,1)">
+            <div class="icon-wrapper">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <div class="project-name">
+              <p>PATTERN 5:1</p>
+              <div class="extra-information">
+                <p>Work:5min BREAK:1min</p>
+              </div>
+            </div>
+          </div>
+          <div class="items" (click)="setTimerPattern(25,5)">
+            <div class="icon-wrapper">
+              <i class="fa fa fa-clock-o"></i>
+            </div>
+            <div class="project-name">
+              <p>PATTERN 25:5</p>
+              <div class="extra-information">
+                <p>Work:25min BREAK:5min</p>
+              </div>
+            </div>
+          </div>
+          <div class="items" (click)="setTimerPattern(30,7)">
+            <div class="icon-wrapper">
+              <i class="fa fa fa-clock-o"></i>
+            </div>
+            <div class="project-name">
+              <p>PATTERN 30:7</p>
+              <div class="extra-information">
+                <p>Work:30min BREAK:7min</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card-body">
-      <div class="container">
-        <div class="items">
-          <div class="icon-wrapper">
-            <i class="fa fa-clock-o"></i>
-          </div>
-          <div class="project-name">
-            <p>DEFAULT 5</p>
-            <div class="extra-information">
-              <p>Work:5min BREAK:1min</p>
-            </div>
-          </div>
-        </div>
-        <div class="items">
-          <div class="icon-wrapper">
-            <i class="fa fa fa-clock-o"></i>
-          </div>
-          <div class="project-name">
-            <p>DEFAULT 15</p>
-            <div class="extra-information">
-              <p>Work:15min BREAK:5min</p>
-            </div>
-          </div>
-        </div>
-        <div class="items">
-          <div class="icon-wrapper">
-            <i class="fa fa fa-clock-o"></i>
-          </div>
-          <div class="project-name">
-            <p>DEFAULT 30</p>
-            <div class="extra-information">
-              <p>Work:30min BREAK:7min</p>
-            </div>
-          </div>
-        </div>
+
+    <!-- timer basic -->
+    <div class="card col-md-8">
+      <h1 class="text-center">{{ currentMode }} Time</h1>
+      <div id="timer">
+        <span id="minutes">{{ minsLeft }}</span>
+        <span id="middle">:</span>
+        <span id="seconds">{{ secsLeft }}</span>
+      </div>
+
+      <div id="buttons" class="text-center">
+        <button
+          *ngIf="!timerRunning"
+          id="start"
+          class="btn btn-lg btn-outline-primary m-1"
+          (click)="startTimer()"
+        >
+          <i class="fa fa-play-circle"></i>
+        </button>
+        <button
+          *ngIf="timerRunning"
+          id="stop"
+          class="btn btn-lg btn-outline-info m-1"
+          (click)="pauseTimer()"
+        >
+          <i class="fa fa-pause-circle"></i>
+        </button>
+        <button
+          id="reset"
+          class="btn btn-lg btn-outline-danger m-1"
+          (click)="resetTimer()"
+        >
+          <i class="fa fa-undo"></i>
+        </button>
+        <h4 class="text-center">{{ this.currentPattern }}</h4>
       </div>
     </div>
   </div>
+  <div class="row pt-2">
+    <!-- socket chat -->
+    <div class="card title col-md-4" style="width: 18rem;">
+      <div class="chat-container">
+        <div class="main-card">
+          <h3>
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+            SIMPLE CHAT ROOM
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+          </h3>
+          <!-- group members -->
+          <div class="members card-body">
+            <div class="container">
+              <div *ngFor="let groupUser of group.users" class="items">
+                <div class="project-name">
+                  <p>{{ groupUser.username }} : {{ groupUser.status }}</p>
+                </div>
+              </div>
+              
+            </div>
 
-  <!-- timer basic -->
-  <div class="card col-md-7 m-1">
-    <div id="timer">
-      <span id="minutes">{{ minsLeft }}</span>
-      <span id="middle">:</span>
-      <span id="seconds">{{ secsLeft }}</span>
-    </div>
-
-    <div id="buttons" class="text-center">
-      <button
-        *ngIf="!timerRunning"
-        id="start"
-        class="btn btn-lg btn-outline-primary m-1"
-        (click)="startTimer()"
-      >
-        <i class="fa fa-play-circle"></i>
-      </button>
-      <button
-        *ngIf="timerRunning"
-        id="stop"
-        class="btn btn-lg btn-outline-info m-1"
-        (click)="pauseTimer()"
-      >
-        <i class="fa fa-pause-circle"></i>
-      </button>
-      <button
-        id="reset"
-        class="btn btn-lg btn-outline-danger m-1"
-        (click)="resetTimer()"
-      >
-        <i class="fa fa-undo"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- socket chat -->
-  <div class="card title col-md-4 m-1" style="width: 18rem;">
-    <div class="chat-container">
-      <div class="main-card">
-        <h3>
-          <i class="fa fa-comments-o" aria-hidden="true"></i>
-          SIMPLE CHAT ROOM
-          <i class="fa fa-comments-o" aria-hidden="true"></i>
-        </h3>
-        <div class="chat-footer-container">
-          <div class="chat-log">
-            <ul class="row">
-              <li *ngFor="let message of messages">
-                {{ message.content }} - {{ message.from }}
-              </li>
-            </ul>
-          </div>
-          <div class="input-group input-group-sm mb-0">
-            <div
-              (click)="sendMessage(messageContent)"
-              style="cursor: pointer;"
-              class="input-group-prepend"
+            <form
+              *ngIf="groupOwner"
+              ngNativeValidate
+              (submit)="onInviteUser()"
+              class="row ml-auto "
             >
-              <span class="input-group-text" id="inputGroup-sizing-sm"
-                >SEND</span
-              >
+              <input
+                [(ngModel)]="inviteUser"
+                required
+                name="inviteUser"
+                type="text"
+                class="form-control col-md-8"
+                placeholder="Username to Invite"
+              />
+              <button type="submit" class="btn btn-primary mx-auto col-md-3">
+                Invite User
+              </button>
+            </form>
+          </div>
+          <div class="chat-footer-container">
+            <div class="chat-log">
+              <ul class="row">
+                <li *ngFor="let message of messages">
+                  {{ message.content }} - {{ message.from }}
+                </li>
+              </ul>
             </div>
-            <input
-              matInput
-              #inputMessage
-              maxlength="140"
-              placeholder="Type your message"
-              [(ngModel)]="messageContent"
-              (keyup.enter)="sendMessage(messageContent)"
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-            />
+            <div class="input-group input-group-sm mb-0">
+              <div
+                (click)="sendMessage(messageContent)"
+                style="cursor: pointer;"
+                class="input-group-prepend"
+              >
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >SEND</span
+                >
+              </div>
+              <input
+                matInput
+                #inputMessage
+                maxlength="140"
+                placeholder="Type your message"
+                [(ngModel)]="messageContent"
+                (keyup.enter)="sendMessage(messageContent)"
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- tasks -->
-  <div class="tasks card col-md-7 m-1">
-     
-    <ul class="list-group">
-      <li class="list-group-item"> 
-    <form ngNativeValidate (submit)="onTaskCreate()" class="form-inline">
-        <input
-        [(ngModel)]="taskName"
-        required
-        name="taskName"
-        type="text"
-        class="form-control mb-3 taskName"
-        placeholder="Name of the Task"
-      />
-      <button type="submit" class="btn btn-primary mb-3 ml-auto">
-        Create Task
-      </button>
-    </form>
-  </li>
-    </ul>
-    <ul *ngFor="let task of tasks" class="list-group">
-      <li class="list-group-item">
-        <p>
-          {{ task.name }}
-          <button
-            *ngIf="!task.finished"
-            class="btn btn-success"
-            (click)="onTaskFinished(task.id)"
-          >
-            Finished
-          </button>
-          <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
-            Delete
-          </button>
-        </p>
-      </li>
-    </ul>
-  </div>
-
-  <!-- group members -->
-  <div class="col-md-6">
-    <ul *ngFor="let groupUser of group.users" class="list-group">
-      <li class="list-group-item text-info">
-        {{ groupUser.username }} : {{ groupUser.status }}
-      </li>
-    </ul>
-
-    <form
-      *ngIf="groupOwner"
-      ngNativeValidate
-      (submit)="onInviteUser()"
-      class="row"
-    >
-      <input
-        [(ngModel)]="inviteUser"
-        required
-        name="inviteUser"
-        type="text"
-        class="form-control col-md-9"
-        placeholder="Username to Invite"
-      />
-      <button type="submit" class="btn btn-primary col-md-3">
-        Invite User
-      </button>
-    </form>
+    <!-- tasks -->
+    <div class="tasks card col-md-8">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <form ngNativeValidate (submit)="onTaskCreate()" class="form-inline">
+            <input
+              [(ngModel)]="taskName"
+              required
+              name="taskName"
+              type="text"
+              class="form-control mb-3 taskName"
+              placeholder="Name of the Task"
+            />
+            <button type="submit" class="btn btn-primary mb-3 ml-auto">
+              Create Task
+            </button>
+          </form>
+        </li>
+      </ul>
+      <ul *ngFor="let task of tasks" class="list-group">
+        <li class="list-group-item">
+          <p>
+            {{ task.name }}
+            <button
+              *ngIf="!task.finished"
+              class="btn btn-success"
+              (click)="onTaskFinished(task.id)"
+            >
+              Finished
+            </button>
+            <button class="btn btn-danger" (click)="onTaskDelete(task.id)">
+              Delete
+            </button>
+          </p>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

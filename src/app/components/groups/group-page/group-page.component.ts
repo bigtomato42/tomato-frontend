@@ -29,6 +29,12 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   secsLeft;
   interval;
   timerRunning = false;
+  currentPattern;
+  currentMode;
+  boolWorkMode;
+  patternWorkMins;
+  patternBreakMins;
+
   messages: Message[] = [];
   messageContent: string;
 
@@ -44,7 +50,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private socketService: SocketService) {
 
-    this.minsLeft = 5;
+    this.minsLeft;
     this.secsLeft = 0;
 
   }
@@ -70,8 +76,13 @@ export class GroupPageComponent implements OnInit, OnDestroy {
       }
       );
 
+    this.patternWorkMins = 5;
+    this.patternBreakMins = 1;
 
-
+    this.minsLeft = this.patternWorkMins;
+    this.currentMode = 'Work';
+    this.boolWorkMode = true;
+    this.currentPattern = `Work: ${this.patternWorkMins} mins, Break: ${this.patternBreakMins} mins`;
 
     // on exit component
     this.routeSub = this.router.events.subscribe((event) => {
@@ -93,6 +104,8 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   // invite users
   onInviteUser() {
     this.groupService.inviteUser(this.inviteUser, this.group.id).subscribe(res => console.log(res));
+    this.inviteUser = '';
+
   }
 
   // create task
@@ -121,7 +134,16 @@ export class GroupPageComponent implements OnInit, OnDestroy {
           this.secsLeft--;
         } else {
           if (this.minsLeft === 0) {
-            this.pauseTimer();
+            if (this.boolWorkMode) {
+              this.minsLeft = this.patternBreakMins;
+              this.currentMode = 'Break';
+            } else {
+              this.minsLeft = this.patternWorkMins;
+              this.currentMode = "Work";
+            }
+            this.boolWorkMode = !this.boolWorkMode;
+
+            // this.pauseTimer();
           } else {
             this.secsLeft = 59;
             this.minsLeft--;
@@ -138,11 +160,17 @@ export class GroupPageComponent implements OnInit, OnDestroy {
 
   resetTimer() {
     this.pauseTimer();
-    this.minsLeft = 5;
+    this.minsLeft = this.patternWorkMins;
     this.secsLeft = 0;
     this.timerRunning = false;
   }
 
+  setTimerPattern(workMins, breakMins) {
+    this.patternWorkMins = workMins;
+    this.patternBreakMins = breakMins;
+    this.currentPattern = `Work: ${this.patternWorkMins} mins, Break: ${this.patternBreakMins} mins`;
+    this.resetTimer();
+  }
   // socket connection
   private initIoConnection(): void {
     this.socketService.initSocket();
