@@ -127,19 +127,24 @@
 
   <!-- tasks -->
   <div class="tasks card col-md-7 m-1">
-    <form ngNativeValidate (submit)="onTaskCreate()" class="row">
-      <input
+     
+    <ul class="list-group">
+      <li class="list-group-item"> 
+    <form ngNativeValidate (submit)="onTaskCreate()" class="form-inline">
+        <input
         [(ngModel)]="taskName"
         required
         name="taskName"
         type="text"
-        class="form-control col-md-8 m-1 "
+        class="form-control mb-3 taskName"
         placeholder="Name of the Task"
       />
-      <button type="submit" class="btn btn-primary col-md-3">
+      <button type="submit" class="btn btn-primary mb-3 ml-auto">
         Create Task
       </button>
     </form>
+  </li>
+    </ul>
     <ul *ngFor="let task of tasks" class="list-group">
       <li class="list-group-item">
         <p>
