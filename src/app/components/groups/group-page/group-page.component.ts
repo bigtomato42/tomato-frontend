@@ -82,7 +82,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
     this.minsLeft = this.patternWorkMins;
     this.currentMode = 'Work';
     this.boolWorkMode = true;
-    this.currentPattern = `Work: ${this.patternWorkMins} mins, Break: ${this.patternBreakMins} mins`;
+    this.currentPattern = `Work: ${this.patternWorkMins} min, Break: ${this.patternBreakMins} min`;
 
     // on exit component
     this.routeSub = this.router.events.subscribe((event) => {
@@ -168,7 +168,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   setTimerPattern(workMins, breakMins) {
     this.patternWorkMins = workMins;
     this.patternBreakMins = breakMins;
-    this.currentPattern = `Work: ${this.patternWorkMins} mins, Break: ${this.patternBreakMins} mins`;
+    this.currentPattern = `Work: ${this.patternWorkMins} min, Break: ${this.patternBreakMins} min`;
     this.resetTimer();
   }
   // socket connection

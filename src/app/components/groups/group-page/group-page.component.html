@@ -8,12 +8,12 @@
           alt="..."
         />
         <div class="text-block">
-          <h4>The Awesome Group</h4>
+          <h4>{{ group.name }}</h4>
         </div>
       </div>
       <div class="card-body">
         <div class="container">
-          <div class="items" (click)="setTimerPattern(5,1)">
+          <div class="items" (click)="setTimerPattern(5, 1)">
             <div class="icon-wrapper">
               <i class="fa fa-clock-o"></i>
             </div>
@@ -24,7 +24,7 @@
               </div>
             </div>
           </div>
-          <div class="items" (click)="setTimerPattern(25,5)">
+          <div class="items" (click)="setTimerPattern(25, 5)">
             <div class="icon-wrapper">
               <i class="fa fa fa-clock-o"></i>
             </div>
@@ -35,7 +35,7 @@
               </div>
             </div>
           </div>
-          <div class="items" (click)="setTimerPattern(30,7)">
+          <div class="items" (click)="setTimerPattern(30, 7)">
             <div class="icon-wrapper">
               <i class="fa fa fa-clock-o"></i>
             </div>
@@ -105,7 +105,6 @@
                   <p>{{ groupUser.username }} : {{ groupUser.status }}</p>
                 </div>
               </div>
-              
             </div>
 
             <form
@@ -123,7 +122,7 @@
                 placeholder="Username to Invite"
               />
               <button type="submit" class="btn btn-primary mx-auto col-md-3">
-                Invite User
+                Invite
               </button>
             </form>
           </div>
@@ -177,7 +176,7 @@
               placeholder="Name of the Task"
             />
             <button type="submit" class="btn btn-primary mb-3 ml-auto">
-              Create Task
+              Create
             </button>
           </form>
         </li>
